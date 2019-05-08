@@ -3,32 +3,25 @@
 {% block body %}
 <div class="container">
 
-	<form method=post action="{{ url_for('verifycode') }}">
-	  <div class="form-group">
-		<label>Enter Code Here</label>
-		<textarea class="form-control" id="code" rows="8" name="code"></textarea>
-	  </div>
-	  <div class="form-group">
-		<button type="submit" class="btn btn-primary">Submit My Code</button>
-	  </div>
+	<h5>{{ code_form.code_text.label }}</h5>
+	<form method="POST" action="">
+		<div class="form-group">
+			{{ code_form.code_text }}
+		</div>
+		<div class="form-group">
+			{{ code_form.code_submit }}
+		</div>
 	</form>
-	
+
+	<h5>{{ result_form.result_text.label }}</h5>
+	<form method="POST" action="">
+		<div class="form-group">
+			{{ result_form.result_text }}
+		</div>
+
+	<form method="POST" action="">
+	</form>
+
 </div>
 
-<!--
-    <textarea class="form-control" id="code" rows="8"></textarea>
-	<div class="jumbotron text-left">
-        <h1>Data Scientiest's Toolbox</h1>
-        <p>
-            &nbsp;
-        </p>
-        <p>
-            <a class="lead" href="/dashboard"><i class="fa fa-th-large"></i> Let's Create Something...</a>
-        </p>
-        <p>
-            <a class="lead" href="#"><i class="fa fa-whatsapp"></i> More to come, watch out this space for more</a>
-        </p>
-
-    </div>
--->
 {% endblock %}
