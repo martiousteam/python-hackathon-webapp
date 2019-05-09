@@ -4,10 +4,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 from forms import CodeForm, ResultForm
 from stdio import stdoutIO
+from RestrictedPython import compile_restricted
 
 app = Flask(__name__)
-app.debug = True
-app.secret_key = 'development key'
+app.config.from_object('config')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -23,11 +23,10 @@ def homepage():
 
 		with stdoutIO() as s:
 			try:
-				code = compile(code_str, "script", "exec")
+				code = compile_restricted(code_str, "script", "exec")
 				exec(code)
 				result_form.result_text.data = s.getvalue()
 			except:
-				app.logger.info("I am in exception")
 				result_form.result_text.data = 'Code does not work!'
 
 	return render_template('index.html', code_form=code_form, result_form=result_form)
@@ -39,4 +38,5 @@ def main():
 
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.secret_key = app.config['SECRET_KEY']
+	app.run(debug=app.config['DEBUG'])
