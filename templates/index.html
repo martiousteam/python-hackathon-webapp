@@ -1,27 +1,26 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="container">
+    <div class="container">
 
-	<h5>{{ code_form.code_text.label }}</h5>
-	<form method="POST" action="">
-		<div class="form-group">
-			{{ code_form.code_text }}
-		</div>
-		<div class="form-group">
-			{{ code_form.code_submit }}
-		</div>
-	</form>
+        <h5>{{ code_form.code_text.label }}</h5>
+        <form method="POST" action="">
+            <div class="form-group">
+                {{ code_form.code_text }}
+            </div>
+            <div class="form-group">
+                {{ code_form.code_submit }}
+            </div>
+        </form>
 
-	<h5>{{ result_form.result_text.label }}</h5>
-	<form method="POST" action="">
-		<div class="form-group">
-			{{ result_form.result_text }}
-		</div>
+        <h5>{{ result_form.result_text.label }}</h5>
+        <form method="POST" action="">
+            <div class="form-group">
+                {{ result_form.result_text }}
+            </div>
 
-	<form method="POST" action="">
-	</form>
+        </form>
 
-</div>
+    </div>
 
 {% endblock %}

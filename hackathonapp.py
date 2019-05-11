@@ -3,8 +3,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for
 from forms import CodeForm, ResultForm
-from stdio import stdoutIO
-from RestrictedPython import compile_restricted
+from exec_untrusted import exec_untrusted
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -12,31 +11,24 @@ app.config.from_object('config')
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
-	code_form = CodeForm(request.form)
-	result_form = ResultForm(request.form)
+    code_form = CodeForm(request.form)
+    result_form = ResultForm(request.form)
 
-	app.logger.info(request.method)
+    app.logger.info(request.method)
 
-	if request.method == 'POST' and code_form.validate() and code_form.code_submit.data:
+    if request.method == 'POST' and code_form.validate() and code_form.code_submit.data:
+        code_str = code_form.code_text.data
+        result_text = exec_untrusted(code_str)
+        result_form.result_text.data = result_text
 
-		code_str = code_form.code_text.data
-
-		with stdoutIO() as s:
-			try:
-				code = compile_restricted(code_str, "script", "exec")
-				exec(code)
-				result_form.result_text.data = s.getvalue()
-			except:
-				result_form.result_text.data = 'Code does not work!'
-
-	return render_template('index.html', code_form=code_form, result_form=result_form)
+    return render_template('index.html', code_form=code_form, result_form=result_form)
 
 
 @app.route('/crash')
 def main():
-	raise Exception()
+    raise Exception()
 
 
 if __name__ == "__main__":
-	app.secret_key = app.config['SECRET_KEY']
-	app.run(debug=app.config['DEBUG'])
+    app.secret_key = app.config['SECRET_KEY']
+    app.run(debug=app.config['DEBUG'])
