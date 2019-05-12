@@ -16,10 +16,13 @@ def homepage():
 
     app.logger.info(request.method)
 
-    if request.method == 'POST' and code_form.validate() and code_form.code_submit.data:
+    if request.method == 'POST' and code_form.validate() and code_form.code_verify.data:
         code_str = code_form.code_text.data
         result_text = exec_untrusted(code_str)
         result_form.result_text.data = result_text
+
+    if request.method == 'POST' and code_form.validate() and code_form.code_submit.data:
+        pass
 
     return render_template('index.html', code_form=code_form, result_form=result_form)
 

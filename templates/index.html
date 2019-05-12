@@ -9,7 +9,16 @@
                 {{ code_form.code_text }}
             </div>
             <div class="form-group">
-                {{ code_form.code_submit }}
+            <table width="100%">
+                <tr>
+                    <td>
+                        {{ code_form.code_verify }}
+                    </td>
+                    <td align="right">
+                        {{ code_form.code_submit }}
+                    </td>
+                </tr>
+            </table>
             </div>
         </form>
 
@@ -18,9 +27,7 @@
             <div class="form-group">
                 {{ result_form.result_text }}
             </div>
-
         </form>
-
     </div>
 
 {% endblock %}
