@@ -1,5 +1,5 @@
 from wtforms import Form, TextAreaField, validators, \
-    SubmitField  # , PasswordField, ValidationError, SelectField, IntegerField
+    SubmitField, BooleanField, StringField, PasswordField  # , ValidationError, SelectField, IntegerField
 from wtforms.widgets import TextArea
 
 
@@ -11,4 +11,13 @@ class CodeForm(Form):
 
 class ResultForm(Form):
     result_text = TextAreaField('Code Result:', [validators.data_required()],
-                                render_kw={'readonly': True, 'class': 'form-control', 'rows': 10, 'columns': 50})
+								render_kw={'readonly': True, 'class': 'form-control', 'rows': 10, 'columns': 50})
+
+
+class LoginForm(Form):
+    username = StringField('Username', validators=[validators.DataRequired()],
+								render_kw={'class': 'form-control', 'required': True,'placeholder': "Username", 'autofocus': True})
+    password = PasswordField('Password', validators=[validators.DataRequired()],
+								render_kw={'class': 'form-control', 'required': True,'placeholder': "Password"})
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In',render_kw={'class': 'btn btn-lg btn-primary btn-block'})
