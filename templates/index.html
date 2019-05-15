@@ -2,14 +2,6 @@
 
 {% block body %}
     <div class="container">
-        <p class="lead">
-        Welcome 
-        {% if current_user.is_authenticated %}
-           {{ current_user.name }}!
-        {% endif %}
-        </p>
-    </div>
-    <div class="container">
         <h5>{{ code_form.code_text.label }}</h5>
         <form method="POST" action="">
             <div class="form-group">

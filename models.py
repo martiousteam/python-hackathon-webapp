@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 class User(db.Model, UserMixin):
 
     __table_args__ = {'extend_existing': True} 
-	
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     email = db.Column(db.String(120), unique=True)
@@ -38,8 +38,6 @@ if __name__ == "__main__":
 
     # TBD - Change create_all to create database only if file does not exist.
     db.create_all()
-	
-	
     # TBD - Change code to make sure record is inserted only if it does not exist.
     user = User(id=1,username='TestUser',email='martious@gmail.com',name='Test User',password='test')
     db.session.add(user)
