@@ -6,8 +6,7 @@ from forms import CodeForm, ResultForm, LoginForm
 from exec_untrusted import exec_untrusted
 
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user
-from flask_login import login_required
+from flask_login import LoginManager, login_user, login_required, logout_user
 import os
 
 app = Flask(__name__)
@@ -20,7 +19,7 @@ from models import User
 # Configure authentication
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
-# login_manager.login_view = "login"
+login_manager.login_view = "login"
 login_manager.init_app(app)
 
 # This flask-login callback is used to reload the user object from the user ID stored in the session.
@@ -31,6 +30,7 @@ def load_user(userid):
     return User.query.get(int(userid))
 
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def homepage():
     code_form = CodeForm(request.form)
     result_form = ResultForm(request.form)
@@ -47,14 +47,34 @@ def homepage():
 
 
 
-@app.route('/crash')
+@app.route('/crash/')
 def main():
     raise Exception()
 
-@app.route('/testlogin')
+@app.route('/testlogin/')
 @login_required
 def testlogin():
     return render_template('testlogin.html')
+
+@app.route('/logout/')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route("/signup/", methods=["GET", "POST"])
+def signup():
+    form = SignupForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        user = User(email = form.email.data,
+                    username = form.username.data,
+                    password = form.password.data,
+                    name = form.name.data)
+        db.session.add(user)
+        db.session.commit()
+        # flash('Welcome, {}! Please login.'.format(user.username))
+        return redirect(url_for('login'))
+    return render_template("signup.html", form=form)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -62,12 +82,10 @@ def login():
     if request.method == 'POST' and login_form.validate():
         # app.logger.info('Login Attempt, Username = ' + login_form.username.data + ' Password = ' + login_form.password.data)
         user = User.get_by_username(login_form.username.data)
-        app.logger.info(user)
-        if user is not None:
+        # app.logger.info(user)
+        if user is not None and user.check_password(login_form.password.data):
             login_user(user, login_form.remember_me.data)
-            # session['logged_in'] = 'True'
-            # session['username'] = username
-            return redirect(url_for('testlogin'))
+            return redirect(request.args.get('next') or url_for('testlogin'))
     return render_template('login.html',login_form=login_form)
 
 if __name__ == "__main__":

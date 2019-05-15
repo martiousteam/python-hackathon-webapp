@@ -1,6 +1,7 @@
 from sqlalchemy import desc
 from flask_login import UserMixin
 from hackathonapp import db
+from werkzeug.security import check_password_hash, generate_password_hash
 
 class User(db.Model, UserMixin):
 
@@ -12,10 +13,13 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(120), unique=False)
     password_hash = db.Column(db.String)
 
+    # this creates a property for this class which is not stored in database
+    # this property can not be read
     @property
     def password(self):
         raise AttributeError('password: write-only field')
 
+    # Setter method for password property
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -33,10 +37,14 @@ class User(db.Model, UserMixin):
 if __name__ == "__main__":
 
     # TBD - Change create_all to create database only if file does not exist.
-    # db.create_all()
+    db.create_all()
 	
 	
     # TBD - Change code to make sure record is inserted only if it does not exist.
-    user = User(id=1,username='TestUser',email='martious@gmail.com',name='Test User')
+    user = User(id=1,username='TestUser',email='martious@gmail.com',name='Test User',password='test')
+    db.session.add(user)
+    user = User(id=2,username='himanshu',email='himanshu.shrotri@gmail.com',name='Himanshu Shrotri',password='test')
+    db.session.add(user)
+    user = User(id=3,username='pratik',email='pratikajmera@gmail.com',name='Pratik Ajmera',password='test')
     db.session.add(user)
     db.session.commit()

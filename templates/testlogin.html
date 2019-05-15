@@ -5,8 +5,11 @@
 
         <h5>you can see this page only if you are logged in.</h5>
 		
-		<p>Your Username is </p>
-        <p>Your Password is </p>
+		<p>
+        {% if current_user.is_authenticated %}
+           Hi {{ current_user.name }}!
+        {% endif %}
+        </p>
     </div>
 
 {% endblock %}
