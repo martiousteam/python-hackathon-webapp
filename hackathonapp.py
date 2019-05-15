@@ -2,7 +2,7 @@
 # !/usr/bin/env python
 
 from flask import Flask, render_template, request, redirect, url_for
-from forms import CodeForm, ResultForm, LoginForm
+from forms import CodeForm, ResultForm, LoginForm, SignupForm
 from exec_untrusted import exec_untrusted
 
 from flask_sqlalchemy import SQLAlchemy
@@ -64,8 +64,9 @@ def logout():
 
 @app.route("/signup/", methods=["GET", "POST"])
 def signup():
-    form = SignupForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    form = SignupForm(request.form)
+    if request.method == 'POST' and form.validate():
+        app.logger.info('Signup Attempt, Username = ' + form.username.data + ' Name = ' + form.name.data)
         user = User(email = form.email.data,
                     username = form.username.data,
                     password = form.password.data,
