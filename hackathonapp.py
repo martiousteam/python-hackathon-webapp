@@ -26,8 +26,8 @@ def homepage():
 				code = compile_restricted(code_str, "script", "exec")
 				exec(code)
 				result_form.result_text.data = s.getvalue()
-			except:
-				result_form.result_text.data = 'Code does not work!'
+			except Exception as excp:
+				result_form.result_text.data = "Code does not work! \nException: {}".format(excp)
 
 	return render_template('index.html', code_form=code_form, result_form=result_form)
 
