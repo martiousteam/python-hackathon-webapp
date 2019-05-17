@@ -21,8 +21,7 @@ login_manager.init_app(app)
 
 @app.route('/')
 def home():
-    # return_message = 'Welcome to the home... <BR>'
-    return render_template('options.html')
+    return render_template('index.html')
 
 
 # -- Import a module / component using its blueprint handler variable (mod_auth)
