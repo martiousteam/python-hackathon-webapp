@@ -36,6 +36,12 @@ from hackathon.mod_codesubmission.controllers import mod_codesubmission as codes
 app.register_blueprint(codesubmission_module)
 
 
+# -- Import a module / component using its blueprint handler variable (mod_auth)
+from hackathon.mod_fireapi.controllers import mod_fireapi as fireapi_module
+# -- Register blueprint(s)
+app.register_blueprint(fireapi_module)
+
+
 # Build the database:
 # This will create the database file using SQLAlchemy
 # db.create_all()
@@ -45,6 +51,7 @@ app.register_blueprint(codesubmission_module)
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
+
 
 if __name__ == "__main__":
     app.secret_key = app.config['SECRET_KEY']
