@@ -5,7 +5,7 @@ from flask import request, render_template,  redirect, url_for, Blueprint
 from flask_login import login_required
 
 from hackathon.mod_codesubmission.forms import CodeForm, ResultForm
-from hackathon.mod_codesubmission.exec_untrusted import exec_untrusted
+from hackathon.mod_codesubmission.exec_untrusted_basic import exec_untrusted
 
 from hackathon import db, app
 
