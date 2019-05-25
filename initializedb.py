@@ -14,4 +14,6 @@ if __name__ == "__main__":
     db.session.add(user)
     user = User(id=3,username='pratik',email='pratikajmera@gmail.com',name='Pratik Ajmera',password='test',is_kerberos=False)
     db.session.add(user)
+    user = User(id=4,username='ajmera@INTRANET.MARTIOUS.COM',email='pratik.ajmera@martious.com',name='Pratik Ajmera',is_kerberos=True)
+    db.session.add(user)
     db.session.commit()
