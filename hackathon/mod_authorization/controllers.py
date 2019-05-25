@@ -49,7 +49,7 @@ def testlogin():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('authorization.login'))
+    return redirect(url_for('home'))
 
 @mod_authorization.route('/login/', methods=['GET', 'POST'])
 def login():
