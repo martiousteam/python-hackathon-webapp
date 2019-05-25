@@ -74,6 +74,6 @@ def kerberoslogin(user):
     return redirect(url_for('authorization.unauthorized'))
 
 @mod_authorization.route('/unauthorized/')
-def unauthorized(user):
+def unauthorized():
     return render_template('authorization/unauthorized.html')
 
