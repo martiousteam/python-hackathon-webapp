@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True)
     name = db.Column(db.String(120), unique=False)
     password_hash = db.Column(db.String)
+    is_kerberos = db.Column(db.Boolean, default=False)
 
     # this creates a property for this class which is not stored in database
     # this property can not be read
@@ -32,18 +33,9 @@ class User(db.Model, UserMixin):
     def get_by_username(username):
         return User.query.filter_by(username=username).first()
 
+    @staticmethod
+    def get_by_kerberosuser(username):
+        return User.query.filter_by(username=username).filter_by(is_kerberos=True).first()
+
     def __repr__(self):
         return "<User '{}'>".format(self.username)
-
-if __name__ == "__main__":
-
-    # TBD - Change create_all to create database only if file does not exist.
-    db.create_all()
-    # TBD - Change code to make sure record is inserted only if it does not exist.
-    user = User(id=1,username='TestUser',email='martious@gmail.com',name='Test User',password='test')
-    db.session.add(user)
-    user = User(id=2,username='himanshu',email='himanshu.shrotri@gmail.com',name='Himanshu Shrotri',password='test')
-    db.session.add(user)
-    user = User(id=3,username='pratik',email='pratikajmera@gmail.com',name='Pratik Ajmera',password='test')
-    db.session.add(user)
-    db.session.commit()

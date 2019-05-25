@@ -8,6 +8,9 @@ from hackathon.mod_authorization.models import User
 from hackathon import db, app, login_manager
 
 
+from flask_kerberos import requires_authentication, init_kerberos
+init_kerberos(app)
+
 mod_authorization = Blueprint('authorization', __name__, url_prefix='/authorization')
 
 
@@ -60,3 +63,17 @@ def login():
             login_user(user, login_form.remember_me.data)
             return redirect(request.args.get('next') or url_for('authorization.testlogin'))
     return render_template('authorization/login.html', login_form=login_form)
+
+@mod_authorization.route('/kerberoslogin/')
+@requires_authentication
+def kerberoslogin(user):
+    user = User.get_by_kerberosuser(user)
+    if user is not None:
+        login_user(user)
+        return redirect(request.args.get('next') or url_for('authorization.testlogin'))
+    return redirect(url_for('authorization.unauthorized'))
+
+@mod_authorization.route('/unauthorized/')
+def unauthorized(user):
+    return render_template('authorization/unauthorized.html')
+
