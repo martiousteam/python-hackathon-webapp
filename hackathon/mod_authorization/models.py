@@ -5,7 +5,7 @@ from hackathon import db
 from werkzeug.security import check_password_hash, generate_password_hash
 
 class User(db.Model, UserMixin):
-
+    __tablename__='user'
     __table_args__ = {'extend_existing': True} 
 
     id = db.Column(db.Integer, primary_key=True)
