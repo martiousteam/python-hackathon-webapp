@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 from hackathon.mod_codesubmission.forms import CodeForm, ResultForm
 from hackathon.mod_codesubmission.exec_untrusted_basic import exec_untrusted
 from hackathon.mod_codesubmission.models import Competition
+from hackathon.mod_codesubmission.models import Competition
 
 from hackathon import db, app
 
