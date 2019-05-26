@@ -61,7 +61,7 @@ def login():
         # app.logger.info(user)
         if user is not None and user.check_password(login_form.password.data):
             login_user(user, login_form.remember_me.data)
-            return redirect(request.args.get('next') or url_for('authorization.testlogin'))
+            return redirect(request.args.get('next') or url_for('codesubmission.participanthome'))
     return render_template('authorization/login.html', login_form=login_form)
 
 @mod_authorization.route('/kerberoslogin/')

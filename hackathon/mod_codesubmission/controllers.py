@@ -2,14 +2,24 @@
 
 
 from flask import request, render_template,  redirect, url_for, Blueprint
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from hackathon.mod_codesubmission.forms import CodeForm, ResultForm
 from hackathon.mod_codesubmission.exec_untrusted_basic import exec_untrusted
+from hackathon.mod_codesubmission.models import Competition
 
 from hackathon import db, app
 
 mod_codesubmission = Blueprint('codesubmission', __name__, url_prefix='/codesubmission')
+
+
+@mod_codesubmission.route('/participanthome/', methods=['GET', 'POST'])
+@login_required
+def participanthome():
+    competitions = Competition.query.filter(User.competitions.any(id = current_user.id))
+    return(str(competitions))
+    # return(current_user.name, str(current_user.name,competitions))
+    # return render_template('codesubmission/participanthome.html')
 
 
 @mod_codesubmission.route('/reviewcode/', methods=['GET', 'POST'])
