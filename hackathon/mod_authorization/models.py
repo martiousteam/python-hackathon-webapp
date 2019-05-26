@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String)
     is_kerberos = db.Column(db.Boolean, default=False)
 
+
     # this creates a property for this class which is not stored in database
     # this property can not be read
     @property

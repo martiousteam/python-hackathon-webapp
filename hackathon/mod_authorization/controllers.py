@@ -44,12 +44,12 @@ def testlogin():
     return render_template('authorization/testlogin.html')
 
 
-
 @mod_authorization.route('/logout/')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
 
 @mod_authorization.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -64,6 +64,7 @@ def login():
             return redirect(request.args.get('next') or url_for('codesubmission.participanthome'))
     return render_template('authorization/login.html', login_form=login_form)
 
+
 @mod_authorization.route('/kerberoslogin/')
 @requires_authentication
 def kerberoslogin(user):
@@ -72,6 +73,7 @@ def kerberoslogin(user):
         login_user(user)
         return redirect(request.args.get('next') or url_for('authorization.testlogin'))
     return redirect(url_for('authorization.unauthorized'))
+
 
 @mod_authorization.route('/unauthorized/')
 def unauthorized():

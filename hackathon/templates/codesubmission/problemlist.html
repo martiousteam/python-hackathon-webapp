@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% from "_formhelpers.html" import render_field %}
+
+{% block body %}
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" style="width:18%">Problem Statement ID</th>
+          <th scope="col" style="width:20%">Summary</th>
+          <th scope="col" style="width:50%">Description</th>
+          <th scope="col" style="width:12%">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      {% for problem in problem_list %}
+
+        <tr>
+          <th scope="row">{{ problem.id }}</th>
+          <td>{{ problem.problem_summary }}</td>
+          <td>{{ problem.problem_text }}</td>
+          <td>
+              <a href="{{ url_for('codesubmission.reviewcode', problem_statement_id=problem.id, competition_id=problem.competition_id)}}" class="btn btn-primary">Attempt</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}

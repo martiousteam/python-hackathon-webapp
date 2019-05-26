@@ -2,13 +2,16 @@ import sys
 sys.path.insert(0,"/var/www/python/python-hackathon-webapp/")
 
 from hackathon import db
+from hackathon import app
 from hackathon.mod_authorization.models import User
-from hackathon.mod_codesubmission.models import Competition # Team, TeamParticipant
+from hackathon.mod_codesubmission.models import Competition, ProblemStatement # Team, TeamParticipant
 
 
 if __name__ == "__main__":
     # TBD - Change create_all to create database only if file does not exist.
-    db.create_all()
+    with app.test_request_context():
+        db.init_app(app)
+        db.create_all()
 
     # TBD - Change code to make sure record is inserted only if it does not exist.
     user1 = User(id=1,username='TestUser',email='martious@gmail.com',name='Test User',password='test',is_kerberos=False)
@@ -17,33 +20,30 @@ if __name__ == "__main__":
     user4 = User(id=4,username='ajmera@INTRANET.MARTIOUS.COM',email='pratik.ajmera@martious.com',name='Pratik Ajmera',is_kerberos=True)
     db.session.add_all([user1,user2,user3,user4])
 
-    competition = Competition(id=1,name='Martious Hackathon')
-    competition.competition_participants.append(user1)
-    competition.competition_participants.append(user2)
-    competition.competition_participants.append(user3)
-    competition.competition_participants.append(user4)
-    db.session.add(competition)
+    competition1 = Competition(id=1,name='Martious Hackathon 1', description="Join in the world's most excieting Coding Competition @ Martious.com 1")
+    competition2 = Competition(id=2,name='Martious Hackathon 2', description="Join in the world's most excieting Coding Competition @ Martious.com 2")
+    competition1.competition_participants.append(user1)
+    competition1.competition_participants.append(user2)
+    competition1.competition_participants.append(user3)
+    competition1.competition_participants.append(user4)
+    competition2.competition_participants.append(user2)
+    db.session.add(competition1)
+    db.session.add(competition2)
 
+    problemstatement1 = ProblemStatement(competition_id=1, problem_summary="Short Summary 1.1",
+                                         problem_text="Sample Problem Test Goes Here 1")
+    problemstatement2 = ProblemStatement(competition_id=1, problem_summary="Short Summary 1.2",
+                                         problem_text="Sample Problem Test Goes Here 2")
+    problemstatement3 = ProblemStatement(competition_id=2, problem_summary="Short Summary 2.1",
+                                         problem_text="Sample Problem Test Goes Here 3")
+    problemstatement4 = ProblemStatement(competition_id=2, problem_summary="Short Summary 2.2",
+                                         problem_text="Sample Problem Test Goes Here 4")
+    problemstatement5 = ProblemStatement(competition_id=2, problem_summary="Short Summary 2.3",
+                                         problem_text="Sample Problem Test Goes Here 5")
+    problemstatement6 = ProblemStatement(competition_id=2, problem_summary="Short Summary 2.4",
+                                         problem_text="Sample Problem Test Goes Here 6")
 
-
-
-    
-    
-
-    '''
-    team = Team(id=1,name='TestTeam 1')
-    db.session.add(team)
-    team = Team(id=2,name='TestTeam 2')
-    db.session.add(team)
-    
-    teamparticipant = TeamParticipant(id=1,user_id=1, team_id=1)
-    db.session.add(teamparticipant)
-    teamparticipant = TeamParticipant(id=2,user_id=2, team_id=1)
-    db.session.add(teamparticipant)
-    teamparticipant = TeamParticipant(id=3,user_id=3, team_id=2)
-    db.session.add(teamparticipant)
-    teamparticipant = TeamParticipant(id=4,user_id=4, team_id=2)
-    db.session.add(teamparticipant)
-    '''
+    db.session.add_all([problemstatement1, problemstatement2, problemstatement3, problemstatement4,
+                        problemstatement5, problemstatement6])
 
     db.session.commit()

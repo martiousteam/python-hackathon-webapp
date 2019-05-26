@@ -8,9 +8,9 @@ def _exec_untrusted(code_body, **kwargs):
         try:
             code = compile(code_body, "<string>", "exec")
             exec(code)
-            result_text = s.getvalue()
+            result_text = {'outcome': True, 'result': s.getvalue()}
         except Exception as e:
-            result_text = 'Code does not work! Error is : ', e
+            result_text = {'outcome': False, 'result': 'Code does not work! Error is : ' + str(e)}
 
     return result_text
 

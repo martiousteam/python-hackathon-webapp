@@ -11,10 +11,19 @@ competition_participants = db.Table('competition_participants',
 )
 
 
+class Participant(User):
+    participant_competitions = db.relationship('Competition',
+                                               secondary=competition_participants,
+                                               backref=db.backref('participants', lazy='dynamic')
+                                               )
+    def __repr__(self):
+        return "<Participant '{}'>".format(self.name)
+
+
 class Competition(db.Model): 
     __tablename__='competition'
     __table_args__={'extend_existing':True}
-    #__abstract__=True
+    # __abstract__=True
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100),unique=True)
     description=db.Column(db.String(255),unique=True)
@@ -22,11 +31,38 @@ class Competition(db.Model):
     start_date=db.Column(db.DateTime)
     end_date=db.Column(db.DateTime)
     result_date=db.Column(db.DateTime)
-    competition_participants = db.relationship('User', secondary=competition_participants, lazy='subquery',
-        backref=db.backref('competitions', lazy=True))
+    competition_participants = db.relationship('User',
+                                               secondary=competition_participants,
+                                               backref=db.backref('competitions', lazy='dynamic')
+                                               )
 
     def __repr__(self):
         return "<Competition '{}'>".format(self.name)
+
+
+class ProblemStatement(db.Model):
+    __tablename__ = 'problem_statement'
+    id = db.Column(db.Integer, primary_key=True)
+    competition_id = db.Column(db.Integer, db.ForeignKey('competition.id'))
+    problem_summary = db.Column(db.String(255))
+    problem_text = db.Column(db.String)
+    def __repr__(self):
+        return "<Problem Statement: '{}'>".format(self.problem_txt)
+
+
+class CodeSubmission(db.Model):
+    __tablename__ = 'code_submissions'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
+    competition_id = db.Column(db.Integer, db.ForeignKey('competition.id'))
+    problem_statement_id = db.Column(db.Integer, db.ForeignKey('problem_statement.id'))
+    date_submitted = db.Column(db.DateTime)
+    code_text = db.Column(db.String)
+    result_text = db.Column(db.String)
+
+    def __repr__(self):
+        return "<CodeSubmission ID '{}'>".format(self.id)
+
 
     '''
 class Team(db.Model):
