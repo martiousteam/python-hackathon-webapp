@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -21,7 +21,10 @@ login_manager.init_app(app)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('codesubmission.participanthome'))
+    else:
+        return render_template('index.html')
 
 
 # -- Import a module / component using its blueprint handler variable (mod_auth)

@@ -12,7 +12,7 @@
                   <div class="card-body">
                     <h5 class="card-title">{{ competition.name }}</h5>
                     <p class="card-text">{{ competition.description }}</p>
-                    <a href="{{ url_for('codesubmission.attemptproblem', competition_id=competition.id)}}" class="btn btn-primary">Attempt</a>
+                    <a href="{{ url_for('codesubmission.listmyproblems', competition_id=competition.id)}}" class="btn btn-success">Participate Now</a>
                   </div>
                 </div>
               </div>

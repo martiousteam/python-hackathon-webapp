@@ -19,14 +19,26 @@ mod_codesubmission = Blueprint('codesubmission', __name__, url_prefix='/codesubm
 @login_required
 def participanthome():
     competitions = Competition.query.filter(Competition.participants.any(id = current_user.id)).all()
+    if (len(competitions) == 0):
+        flash("You are not registered for any competition!", "danger")
     return render_template('codesubmission/participanthome.html', competitions=competitions)
 
-
+'''
 @mod_codesubmission.route('/attemptproblem/<int:competition_id>', methods=['GET', 'POST'])
 @login_required
 def attemptproblem(competition_id):
     problem_list = ProblemStatement.query.filter(ProblemStatement.competition_id==competition_id).all()
     return render_template('codesubmission/problemlist.html', problem_list=problem_list)
+'''
+
+
+@mod_codesubmission.route('/listmyproblems/<int:competition_id>', methods=['GET', 'POST'])
+@login_required
+def listmyproblems(competition_id):
+    problem_list = ProblemStatement.query.filter(ProblemStatement.competition_id==competition_id).all()
+    if (len(problem_list) == 0):
+        flash("You are not registered for any competition!", "danger")
+    return render_template('codesubmission/listmyproblems.html', problem_list=problem_list)
 
 
 @mod_codesubmission.route('/reviewcode/<int:problem_statement_id>,<int:competition_id>', methods=['GET', 'POST'])
@@ -57,9 +69,9 @@ def reviewcode(problem_statement_id, competition_id):
                                         result_text=str(exec_untrusted(code_str)))
             db.session.add(submission)
             db.session.commit()
-            flash("Code Submitted Successfully", "success")
+            flash('Code Submitted Successfully', 'success')
             return redirect(url_for('home'))
         else:
-            flash("Correct the code before submitting!", "danger")
+            flash('Correct the code before submitting!', 'danger')
 
     return render_template('codesubmission/codereview.html', code_form=code_form, result_form=result_form)

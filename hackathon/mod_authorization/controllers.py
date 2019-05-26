@@ -1,6 +1,6 @@
 # mod_authorization/controllers.py
 
-from flask import request, render_template,  redirect, url_for, Blueprint
+from flask import request, render_template,  redirect, url_for, Blueprint, flash
 from flask_login import login_user, login_required, logout_user
 from hackathon.mod_authorization.forms import LoginForm, SignupForm
 from hackathon.mod_authorization.models import User
@@ -33,7 +33,7 @@ def signup():
                     name=form.name.data)
         db.session.add(user)
         db.session.commit()
-        # flash('Welcome, {}! Please login.'.format(user.username))
+        flash('User registered successfully!', 'success')
         return redirect(url_for('authorization.login'))
     return render_template("authorization/signup.html", form=form)
 
@@ -62,6 +62,8 @@ def login():
         if user is not None and user.check_password(login_form.password.data):
             login_user(user, login_form.remember_me.data)
             return redirect(request.args.get('next') or url_for('codesubmission.participanthome'))
+        else:
+            flash("Incorrect username and/or password, try again...", "danger")
     return render_template('authorization/login.html', login_form=login_form)
 
 

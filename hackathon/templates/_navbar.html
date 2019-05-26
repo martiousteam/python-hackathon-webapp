@@ -19,18 +19,20 @@
         <a class="nav-link" href="#"><i class="fa fa-minus-circle"></i> Score Card</a>
       </li>
     </ul>
-
     <ul class="navbar-nav navbar-right">
       {% if current_user.is_authenticated %}
       <li class="nav-item active">
         <a class="nav-link" href="#">Welcome, "{{ current_user.name }}!"<span class="sr-only">(current)</span></a>
       </li>
+
+<!--
       <li class="nav-item active">
         <a class="nav-link" href="#"> <i class="fa fa-user"></i> My Profile <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"> <i class="fa fa-user"></i> My Team <span class="sr-only">(current)</span></a>
       </li>
+-->
       <li class="nav-item active">
         <a class="nav-link" href="{{ url_for('authorization.logout') }}"> <i class="fa fa-sign-out"></i> Logout <span class="sr-only">(current)</span></a>
       </li>
