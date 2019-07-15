@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="container">
+
+        <h5>This page is meant to test this module...</h5>
+		
+		<p>
+        {% if current_user.is_authenticated %}
+           Hi {{ current_user.name }}!
+        {% endif %}
+        </p>
+
+		<p> Current Participant is 
+        {{ current_participant }}
+        </p>
+
+		<p> Current Participant is registered for 
+        {{ current_participants_competitions }} competitions
+        </p>
+        
+		<p> First competition is 
+        {{ first_competition }} 
+        </p>
+
+		<p> First competition participants are 
+        {{ first_competition_participants }} 
+        </p>
+
+		<p> Current Participants problem statement is 
+        {{ current_participants_problemstatements }} 
+        </p>
+
+    </div>
+
+{% endblock %}

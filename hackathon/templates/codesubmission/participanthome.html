@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% from "_formhelpers.html" import render_field %}
+
+{% block body %}
+    <div class="align-content-center">
+      <div class="row mx-auto" >
+        {% for competition in competitions %}
+              <div class="row">
+                    <div class= "m-5 w-25 p-3">
+                        <div class="card text-center" style="width: 18rem; border-color: #00aeef;"">
+                          <!--<img src="{{url_for('static', filename='python-logo-master-v3-TM.png')}}" class="card-img-top" alt="Python Logo">-->
+                          <div class="card-body">
+                            <h5 class="card-title">{{ competition.name }}</h5>
+                            <p class="card-text">{{ competition.description }}</p>
+                            <a href="{{ url_for('codesubmission.listmyproblems', competition_id=competition.id)}}" class="btn btn-success">Participate Now</a>
+                          </div>
+                        </div>
+                    </div>
+              </div>
+        {%endfor%}
+      </div>
+    </div>
+{% endblock %}

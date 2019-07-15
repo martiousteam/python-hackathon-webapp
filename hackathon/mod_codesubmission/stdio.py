@@ -1,4 +1,3 @@
-
 try:
     from StringIO import StringIO
 except ImportError:
@@ -15,4 +14,3 @@ def stdoutIO(stdout=None):
     sys.stdout = stdout
     yield stdout
     sys.stdout = old
-

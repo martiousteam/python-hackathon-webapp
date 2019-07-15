@@ -1,0 +1,24 @@
+<!-- # TBD - Make this page look like https://getbootstrap.com/docs/4.0/examples/sign-in/ -->
+
+{% extends 'layout.html' %}
+
+{% from "_formhelpers.html" import render_field %}
+
+{% block body %}
+  <div class="container text-center">
+  <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+    <form class="form-signup"  method=post>
+	  <h1 class="h3 mb-3 font-weight-normal">Please Sign Up</h1>
+      <label for="username" class="sr-only">Username</label>
+      {{ render_field(form.username) }}
+      <label for="password" class="sr-only">Password</label>
+      {{ render_field(form.password) }}
+      <label for="name" class="sr-only">Name</label>
+      {{ render_field(form.name) }}
+      <label for="email" class="sr-only">Email</label>
+      {{ render_field(form.email) }}
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+    </form>
+  </div>
+  </div>
+{% endblock %}

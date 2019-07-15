@@ -2,18 +2,60 @@ import sys
 sys.path.insert(0,"/var/www/python/python-hackathon-webapp/")
 
 from hackathon import db
+from hackathon import app
 from hackathon.mod_authorization.models import User
+from hackathon.mod_codesubmission.models import Participant, Competition, CompetitionParticipant, ProblemStatement, ParticipantProblemStatement
+
 
 if __name__ == "__main__":
     # TBD - Change create_all to create database only if file does not exist.
-    db.create_all()
+    with app.test_request_context():
+        db.init_app(app)
+        db.create_all()
+
     # TBD - Change code to make sure record is inserted only if it does not exist.
-    user = User(id=1,username='TestUser',email='martious@gmail.com',name='Test User',password='test',is_kerberos=False)
-    db.session.add(user)
-    user = User(id=2,username='himanshu',email='himanshu.shrotri@gmail.com',name='Himanshu Shrotri',password='test',is_kerberos=False)
-    db.session.add(user)
-    user = User(id=3,username='pratik',email='pratikajmera@gmail.com',name='Pratik Ajmera',password='test',is_kerberos=False)
-    db.session.add(user)
-    user = User(id=4,username='ajmera@INTRANET.MARTIOUS.COM',email='pratik.ajmera@martious.com',name='Pratik Ajmera',is_kerberos=True)
-    db.session.add(user)
+    user1 = User(id=1,username='TestUser',email='martious@gmail.com',name='Test User',password='test',is_kerberos=False)
+    user2 = User(id=2,username='himanshu',email='himanshu.shrotri@gmail.com',name='Himanshu Shrotri',password='test',is_kerberos=False)
+    user3 = User(id=3,username='pratik',email='pratikajmera@gmail.com',name='Pratik Ajmera',password='test',is_kerberos=False)
+    user4 = User(id=4,username='ajmera@INTRANET.MARTIOUS.COM',email='pratik.ajmera@martious.com',name='Pratik Ajmera',is_kerberos=True)
+    db.session.add_all([user1,user2,user3,user4])
+
+    participant1 = Participant(id=1,email='martious@gmail.com',name='Test User',user=user1,team_name='Martious 1')
+    participant2 = Participant(id=2,email='himanshu.shrotri@gmail.com',name='Himanshu Shrotri',user=user2,team_name='Martious 2')
+    participant3 = Participant(id=3,email='pratikajmera@gmail.com',name='Pratik Ajmera',user=user3,team_name='Martious 1')
+    participant4 = Participant(id=4,email='pratik.ajmera@martious.com',name='Pratik Ajmera',user=user4,team_name='Martious 2')
+    db.session.add_all([participant1,participant2,participant3,participant4])
+
+    competition1 = Competition(id=1,name='Martious Hackathon 1', description="Join in the world's most excieting Coding Competition @ Martious.com 1")
+    competition2 = Competition(id=2,name='Martious Hackathon 2', description="Join in the world's most excieting Coding Competition @ Martious.com 2")
+
+    competition1.participants.append(participant1)
+    competition1.participants.append(participant2)
+    competition1.participants.append(participant3)
+    competition1.participants.append(participant4)
+    competition2.participants.append(participant1)
+
+    db.session.add_all([competition1,competition2])
+
+    problemstatement1 = ProblemStatement(competition_id=1, problem_summary="Problem Summary 1.1",
+                                         problem_text="Sample Problem Text Goes Here 1", problem_answer="hello")
+    problemstatement2 = ProblemStatement(competition_id=1, problem_summary="Problem Summary 1.2",
+                                         problem_text="Sample Problem Text Goes Here 2", problem_answer="100")
+    problemstatement3 = ProblemStatement(competition_id=2, problem_summary="Problem Summary 2.1",
+                                         problem_text="Sample Problem Text Goes Here 3", problem_answer="hello")
+    problemstatement4 = ProblemStatement(competition_id=2, problem_summary="Problem Summary 2.2",
+                                         problem_text="Sample Problem Text Goes Here 4", problem_answer="1220")
+    problemstatement5 = ProblemStatement(competition_id=2, problem_summary="Problem Summary 2.3",
+                                         problem_text="Sample Problem Text Goes Here 5", problem_answer="123")
+    problemstatement6 = ProblemStatement(competition_id=2, problem_summary="Problem Summary 2.4",
+                                         problem_text="Sample Problem Text Goes Here 6", problem_answer="115")
+
+    problemstatement1.participants.append(participant1)
+    problemstatement2.participants.append(participant2)
+    problemstatement3.participants.append(participant3)
+    problemstatement1.participants.append(participant4)
+
+    db.session.add_all([problemstatement1, problemstatement2, problemstatement3, problemstatement4,
+                        problemstatement5, problemstatement6])
+
     db.session.commit()

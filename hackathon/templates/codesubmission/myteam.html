@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% from "_formhelpers.html" import render_field %}
+
+{% block body %}
+  <div class="container text-center ">
+    <BR><BR><BR>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col" style="width:40%">Name</th>
+          <th scope="col" style="width:30%">Problem Summary</th>
+          <th scope="col" style="width:30%">Completed?</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      {% for teammember in teammember_list %}
+
+        <tr>
+          <td>{{ teammember['name'] }}</td>
+          <td>{{ teammember['problem_summary'] }}</td>
+          <td>{{ teammember['is_correct'] }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+   </div>
+
+{% endblock %}

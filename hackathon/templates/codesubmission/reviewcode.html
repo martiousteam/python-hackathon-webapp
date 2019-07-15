@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% from "_formhelpers.html" import render_field %}
+
+{% block body %}
+    <div class="container">
+        <h5>{{ participant_problemstatement.problemstatement.problem_summary }}</h5>
+        </p>{{ participant_problemstatement.problemstatement.problem_text|safe }}</p>
+    </div>
+
+    <div class="container">
+        <form method="POST" action="">
+            <div class="form-group">
+                <h5>{{ render_field(code_form.code_text.label) }}</h5>
+                    {{ render_field(code_form.code_text) }}
+                    {{ render_field(code_form.code_verify, class="btn btn-outline-warning") }}
+            </div>
+
+                <h5>{{ render_field(code_form.result_text.label) }}</h5>
+                    {{ render_field(code_form.result_text) }} 
+                    {{ render_field(code_form.code_submit, class="btn btn-lg btn-success") }}
+
+        </form>
+    </div>
+
+{% endblock %}

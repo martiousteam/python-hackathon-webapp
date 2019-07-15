@@ -1,0 +1,21 @@
+
+
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="container text-center">
+  <p></p>
+  <h1 class="h3 mb-3 font-weight-normal">Login Instructions</h1><BR><BR>
+      <div class="mx-auto" style="width: 700px;">
+        <p class="container text-left">1. Use Chrome</p>
+        <p class="container text-left">2. Try incognito mode if you have problem with the login</p>
+        <p class="container text-left">3. For Single Sign On enter username with domain as shown below</p>
+        <p class="container text-left">
+        <img src="{{ url_for('static', filename='login_screenshot.png') }}" class="img-fluid border border-primary" alt="Login Instructions Screenshot">
+        </p>
+        <BR>
+        <p class="container"><a href="{{ url_for('authorization.login') }}" class="btn btn-lg btn-primary">Click Here to Login</a></p>
+  
+      </div>
+  </div>
+{% endblock %}
